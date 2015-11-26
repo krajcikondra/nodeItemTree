@@ -1,0 +1,19 @@
+{
+  "name": "helbrary/nodeItemTree",
+  "description": "Tree structure library.",
+  "type": "library",
+  "license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+  "require": {
+	"php": ">= 5.3.7"
+  },
+  "autoload": {
+	"psr-4": {
+	  "Helbrary\\NodeItemTree\\": "src/"
+	},
+	"classmap": [
+	  "src/Tree.php",
+	  "src/TreeNode.php",
+	  "src/TreeItem.php"
+	]
+  }
+}
