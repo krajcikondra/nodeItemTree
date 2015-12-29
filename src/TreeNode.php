@@ -141,6 +141,12 @@ class TreeNode
 		return FALSE;
 	}
 
+	/**
+	 * Contains node some node with search key
+	 * @param TreeNode $node
+	 * @param int|string $searchKey
+	 * @return bool
+	 */
 	private function contains(TreeNode $node, $searchKey)
 	{
 		if ($node->getKey() == $searchKey) return TRUE;
