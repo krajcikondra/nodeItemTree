@@ -20,6 +20,7 @@ class Tree
 	 */
 	private $roots = [];
 
+
 	/**
 	 * Add node to tree
 	 * @param string|int $key
@@ -30,13 +31,15 @@ class Tree
 	 */
 	public function addNode($key, $value, $data = [], $parentKey = NULL)
 	{
-		$node = new TreeNode($key, $value, $data);
+
 		if ($parentKey === NULL) {
+			$node = new TreeNode($key, $value, $data);
 			$this->roots[$key] = $node;
 		} else {
 			if (!array_key_exists($parentKey, $this->nodes)) {
 				throw new ParentNodeNotFoundException($parentKey);
 			}
+			$node = new TreeNode($key, $value, $data, $this->nodes[$parentKey]);
 			$this->nodes[$parentKey]->addNode($node);
 		}
 		$this->nodes[$key] = $node;
@@ -77,4 +80,20 @@ class Tree
 	{
 		return $this->roots;
 	}
+
+	/**
+	 * Return path from root to node
+	 * @param string|int $key
+	 * @return int[] - contains node keys in order from root to search node
+	 */
+	public function getPathToNode($key)
+	{
+		$node = $this->nodes[$key];
+		$nodePathIds = [];
+		while (($node = $node->getParentNode())) {
+			$nodePathIds[] = $node->getKey();
+		}
+		return array_reverse($nodePathIds, FALSE);
+	}
+
 }
