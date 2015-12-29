@@ -96,4 +96,14 @@ class Tree
 		return array_reverse($nodePathIds, FALSE);
 	}
 
+	/**
+	 * Return node
+	 * @param int|string $key
+	 * @return TreeNode|null
+	 */
+	public function getNode($key)
+	{
+		return $this->nodes[$key];
+	}
+
 }
