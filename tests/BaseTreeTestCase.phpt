@@ -4,6 +4,11 @@ use Tester\Assert;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+/**
+ * Class Tree
+ * @author Ondrej Krajcik
+ * @package Helbrary\NodeItemTree
+ */
 class BaseTreeTestCase extends \Tester\TestCase
 {
 
@@ -14,6 +19,7 @@ class BaseTreeTestCase extends \Tester\TestCase
 
 	public function setUp()
 	{
+		\Tester\Environment::setup();
 		$this->tree = $this->buildTree();
 	}
 
@@ -39,7 +45,7 @@ class BaseTreeTestCase extends \Tester\TestCase
 		$tree->addNode(7, 'Shirts', ['highlight' => FALSE], 2);
 		$tree->addNode(8, 'Pants', ['highlight' => FALSE], 2);
 
-		$tree->addNode(9, 'Reaper', ['highlight' => FALSE], 3);
+		$tree->addNode(9, 'Reaper', ['highlight' => FALSE], 3); // will be ever without items
 		$tree->addNode(10, 'Flowers', ['highlight' => TRUE], 3);
 
 		$tree->addNode(11, 'Camera', ['highlight' => FALSE], 4);
@@ -51,6 +57,14 @@ class BaseTreeTestCase extends \Tester\TestCase
 		$tree->addNode(16, 'PC', ['highlight' => FALSE], 14);
 
 		$tree->addNode(17, 'Gaming PC', ['highlight' => FALSE], 16);
+
+		// add items to categories
+		$tree->addItem(1, 1, 'Skoda Octavia', array());
+		$tree->addItem(5, 2, 'Porsche 911', array());
+		$tree->addItem(6, 3, 'Volswagen Golf', array());
+		$tree->addItem(6, 4, 'Volswagen Polo', array());
+		$tree->addItem(5, 5, 'Honda Prelude', array());
+
 		return $tree;
 	}
 
@@ -76,14 +90,29 @@ class BaseTreeTestCase extends \Tester\TestCase
 		Assert::same($nodeData['highlight'], TRUE);
 	}
 
-	public function testContainsDescendant()
+	public function testContainsDescendantNodes()
 	{
 		$contains = $this->tree->getNode(4)->containsDescendant(17);
-		Assert::same(TRUE, $contains);
+		Assert::true($contains);
 		$contains = $this->tree->getNode(1)->containsDescendant(15);
-		Assert::same(FALSE, $contains);
+		Assert::false($contains);
+		$items = $this->tree->getNode(9)->findItems();
+		Assert::count(0, $items);
 	}
 
+	public function testContainsDescendantItems()
+	{
+		$items = $this->tree->getNode(1)->findItems(TRUE);
+		Assert::contains(1, array_keys($items));
+		Assert::contains(2, array_keys($items));
+		Assert::contains(3, array_keys($items));
+		Assert::contains(4, array_keys($items));
+		Assert::contains(5, array_keys($items));
+
+		$items = $this->tree->getNode(1)->findItems();
+		Assert::contains(1, array_keys($items));
+		Assert::count(1, $items);
+	}
 }
 
 $testCase = new BaseTreeTestCase();

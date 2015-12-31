@@ -120,15 +120,35 @@ class TreeNode
 
 	/**
 	 * Return all items in this node
+	 * @param bool $withDescendants - find too items in all descendants?
 	 * @return TreeItem[]
 	 */
-	public function findItems()
+	public function findItems($withDescendants = FALSE)
 	{
+		if ($withDescendants) {
+			$items = $this->findItemsInNodeAndDescendants($this);
+			return $items + $this->items;
+		}
 		return $this->items;
 	}
 
 	/**
-	 * @param $descendantKey
+	 * Find items in node and recursive find items in descendant nodes
+	 * @param TreeNode $node
+	 * @return array
+	 */
+	private function findItemsInNodeAndDescendants(TreeNode $node)
+	{
+		$items = [];
+		foreach ($node->findNodes() as $subNode) {
+			$items += $subNode->findItems($subNode);
+		}
+		return $items;
+	}
+
+	/**
+	 * Contains descendant node?
+	 * @param int|string $descendantKey
 	 * @return bool
 	 */
 	public function containsDescendant($descendantKey)
