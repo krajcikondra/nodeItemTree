@@ -9,7 +9,7 @@ places almost no restrictions on what you can do with the framework. If the GPL
 fits better to your project, you can use the framework under this license.
 
 You don't have to notify anyone which license you are using. You can freely
-use Kdyby Framework in commercial projects as long as the copyright header
+use Helbrary Framework in commercial projects as long as the copyright header
 remains intact.
 
 

@@ -3,6 +3,9 @@
 ![Alt text](tree.png?raw=true "Tree")
 
 Example: Products in categories
+
+Imagine that nodes are categories and items are products.
+
 ```sh
 
 $tree->addNode(1, 'All categories', array()); // root
@@ -13,9 +16,9 @@ $tree->addNode(3, 'Wifi', array(), 1);
 $tree->addNode(4, 'other', array(), 1); 
 
 // add products to categories
-$tree->addItem(2, 1448, 'My super computer', array('price' => 15000'));  // 1448 = id of product
-$tree->addItem(3, 1453, 'My super wifi', array('price' => 800'));  // 1453 = id of product
-$tree->addItem(4, 1350, 'My super printer', array('price' => 800'));  // 1350 = id of product
+$tree->addItem(2, 1448, 'My super computer', array('price' => 15000));  // 1448 = id of product
+$tree->addItem(3, 1453, 'My super wifi', array('price' => 800));  // 1453 = id of product
+$tree->addItem(4, 1350, 'My super printer', array('price' => 800));  // 1350 = id of product
 
 //instead of array with information we can put object
 
@@ -40,4 +43,10 @@ foreach ($tree->findRootNodes() as $rootCategories) {
 }
 ```
 
+Render items of node
+```sh
+$node = $tree->getNode(1);
+$items = $node->findItems(); // return all items which are direct in node with key 1
 
+$items = $node->findItems(TRUE); // return all items in node 1 and all items in all descendants of node 1
+```
