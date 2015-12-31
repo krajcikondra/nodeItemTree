@@ -38,6 +38,7 @@ class TreeItem
 	}
 
 	/**
+	 * Return key of item
 	 * @return int|string
 	 */
 	public function getKey()
@@ -46,6 +47,7 @@ class TreeItem
 	}
 
 	/**
+	 * Return value of item
 	 * @return int|string
 	 */
 	public function getValue()
@@ -54,6 +56,7 @@ class TreeItem
 	}
 
 	/**
+	 * Return data of item
 	 * @return array|Object
 	 */
 	public function getData()
