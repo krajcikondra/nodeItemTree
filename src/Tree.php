@@ -53,7 +53,7 @@ class Tree
 	 * @param array|Object $itemData
 	 * @throws NodeNotFoundException
 	 */
-	public function addItem($nodeKey, $itemKey, $itemValue, $itemData)
+	public function addItem($nodeKey, $itemKey, $itemValue, $itemData = [])
 	{
 		if (!array_key_exists($nodeKey, $this->nodes)) {
 			throw new NodeNotFoundException($nodeKey);
