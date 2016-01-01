@@ -82,6 +82,7 @@ class Tree
 	}
 
 	/**
+	 * @deprecated - use instead findPathToNode
 	 * Return path from root to node
 	 * @param string|int $key
 	 * @return int[] - contains node keys in order from root to search node
@@ -94,6 +95,27 @@ class Tree
 			$nodePathIds[] = $node->getKey();
 		}
 		return array_reverse($nodePathIds, FALSE);
+	}
+
+	/**
+	 * Return path from root to node
+	 * @param string|int $key
+	 * @param bool $includeTargetNode - include target node in path?
+	 * @return TreeNode[] - contains node keys in order from root to search node, in format array( $nodeKey => $node )
+	 */
+	public function findPathToNode($key, $includeTargetNode = TRUE)
+	{
+		$node = $this->nodes[$key];
+		$nodePath = [];
+
+		if ($includeTargetNode) {
+			$nodePath[$node->getKey()] = $node;
+		}
+
+		while (($node = $node->getParentNode())) {
+			$nodePath[$node->getKey()] = $node;
+		}
+		return array_reverse($nodePath, TRUE);
 	}
 
 	/**

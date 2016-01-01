@@ -70,8 +70,21 @@ class BaseTreeTestCase extends \Tester\TestCase
 
 	public function testPathToCategory()
 	{
-		$path = $this->tree->getPathToNode(17);
-		Assert::same([4, 14, 16], $path);
+		$pathToNode = $this->tree->findPathToNode(17, FALSE);
+		Assert::same([4, 14, 16], array_keys($pathToNode));
+		Assert::count(3, $pathToNode);
+		Assert::same('Electro', $pathToNode[4]->getValue());
+		Assert::same('Computer', $pathToNode[14]->getValue());
+		Assert::same('PC', $pathToNode[16]->getValue());
+
+		$pathToNode = $this->tree->findPathToNode(17);
+		Assert::count(4, $pathToNode);
+
+		Assert::same([4, 14, 16, 17], array_keys($pathToNode));
+		Assert::same('Electro', $pathToNode[4]->getValue());
+		Assert::same('Computer', $pathToNode[14]->getValue());
+		Assert::same('PC', $pathToNode[16]->getValue());;
+		Assert::same('Gaming PC', $pathToNode[17]->getValue());;
 	}
 
 	public function testFindRootNodes()

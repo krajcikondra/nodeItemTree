@@ -15,6 +15,8 @@ $tree->addNode(2, 'Computer', array(), 1);
 $tree->addNode(3, 'Wifi', array(), 1);
 $tree->addNode(4, 'other', array(), 1); 
 
+$tree->addNode(5, 'Gaming computer', array(), 2);
+
 // add products to categories
 $tree->addItem(2, 1448, 'My super computer', array('price' => 15000));  // 1448 = id of product
 $tree->addItem(3, 1453, 'My super wifi', array('price' => 800));  // 1453 = id of product
@@ -49,4 +51,26 @@ $node = $tree->getNode(1);
 $items = $node->findItems(); // return all items which are direct in node with key 1
 
 $items = $node->findItems(TRUE); // return all items in node 1 and all items in all descendants of node 1
+```
+
+Path to node
+```sh
+$pathToNodes = $tree->getPathToNode(5);
+foreach ($pathToNodes as $node) {
+  echo '- ' . $node->getValue();
+}
+
+// output will be:  All  categories - Computer - Gaming computer
+
+// if we do not want render last node 'Gaming computer' then we must set second parameter of method getPathToNode to FALSE
+
+$pathToNodes = $tree->getPathToNode(5, FALSE);
+foreach ($pathToNodes as $node) {
+  echo '- ' . $node->getValue();
+}
+
+// output will be:  All  categories - Computer
+
+
+
 ```
