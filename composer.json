@@ -5,7 +5,8 @@
   "license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
   "require": {
 	"php": ">= 5.3.7",
-	"nette/tester": "1.6.1"
+	"nette/tester": "1.6.1",
+	"latte/latte": "v2.3.8"
   },
   "autoload": {
 	"psr-4": {
@@ -14,7 +15,9 @@
 	"classmap": [
 	  "src/Tree.php",
 	  "src/TreeNode.php",
-	  "src/TreeItem.php"
+	  "src/TreeItem.php",
+	  "src/exceptions.php",
+	  "src/TreeRenderer/TreeRenderer.php"
 	]
   }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Helbrary\NodeItemTree;
+use Helbrary\NodeItemTree\Renderer\TreeRenderer;
 
 /**
  * Class Tree
@@ -20,6 +21,16 @@ class Tree
 	 */
 	private $roots = [];
 
+	/**
+	 * @var TreeRenderer
+	 */
+	private $renderer;
+
+
+	public function __construct()
+	{
+		$this->renderer = new TreeRenderer($this);
+	}
 
 	/**
 	 * Add node to tree
@@ -126,6 +137,24 @@ class Tree
 	public function getNode($key)
 	{
 		return $this->nodes[$key];
+	}
+
+	/**
+	 * Return rendered tree
+	 * @return string - html code
+	 */
+	public function render()
+	{
+		return $this->renderer->render();
+	}
+
+	/**
+	 * Return renderer
+	 * @return TreeRenderer
+	 */
+	public function getRenderer()
+	{
+		return $this->renderer;
 	}
 
 }

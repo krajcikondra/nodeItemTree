@@ -1,0 +1,17 @@
+{block node}
+	{foreach $node->findNodes() as $subNode}
+		{var $containActiveNode = ($node->getKey() == $activeNode || $node->containsDescendant($activeNode))}
+		<li {if !$containActiveNode} style="display: none;" {/if}>
+			<span {if $subNode->getKey() == $activeNode} class="active" {/if}>
+				{if $subNode->hasNodes()}
+					{if $containActiveNode} <i class="icon-minus"></i> {else} <i class="icon-plus"></i>  {/if}
+				{/if}
+				{$subNode->getValue()}
+			</span>
+			{include $actionTemplatePath, node => $subNode}
+			<ul>
+				{include node, node => $subNode}
+			</ul>
+		</li>
+	{/foreach}
+{/block}

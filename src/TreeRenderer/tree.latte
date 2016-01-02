@@ -1,0 +1,127 @@
+<div class="helbrary-tree">
+	<ul class="helbrary-tree-list">
+		{foreach $tree->findRootNodes() as $node}
+			<li>
+				{var $containActiveNode = ($node->getKey() == $activeNode || $node->containsDescendant($activeNode))}
+				<span {if $node->getKey() == $activeNode} class="active" {/if} >
+					{if $node->hasNodes()}
+						{if $containActiveNode} <i class="icon-minus"></i> {else} <i class="icon-plus"></i>  {/if}
+					{/if}
+					{$node->getValue()}</span>
+				{include $actionTemplatePath, node => $node}
+				<ul>
+					{include 'tree-item.latte', node => $node}
+				</ul>
+			</li>
+		{/foreach}
+	</ul>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded',function() { // ready
+		$('.helbrary-tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+		$('.helbrary-tree li.parent_li > span').on('click', function (e) {
+			var children = $(this).parent('li.parent_li').find(' > ul > li');
+			if (children.is(":visible")) {
+				children.hide('fast');
+				$(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus').removeClass('icon-minus');
+			} else {
+				children.show('fast');
+				$(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus').removeClass('icon-plus');
+			}
+			e.stopPropagation();
+		});
+
+		$(".helbrary-tree-chooser").click(function() {
+			var targetInputForChooser = {$targetInputForChooser};
+
+
+			if (targetInputForChooser) {
+				$("#" + targetInputForChooser).val($(this).data('key'));
+			}
+
+			$(".helbrary-tree-list li span").removeClass('active');
+			$(this).prev().addClass('active');
+		});
+	});
+</script>
+<style>
+
+	.helbrary-tree {
+		min-height:20px;
+		padding:19px;
+		margin-bottom:20px;
+	}
+	.helbrary-tree li {
+		list-style-type:none;
+		margin:0;
+		padding:10px 5px 0 5px;
+		position:relative
+	}
+	.helbrary-tree li::before, .tree li::after {
+		content:'';
+		left:-20px;
+		position:absolute;
+		right:auto
+	}
+	.helbrary-tree li::before {
+		border-left:1px solid #999;
+		bottom:50px;
+		height:100%;
+		top:0;
+		width:1px
+	}
+	.helbrary-tree li::after {
+		border-top:1px solid #999;
+		height:20px;
+		top:25px;
+		width:25px
+	}
+	.helbrary-tree li span {
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		border:1px solid #999;
+		border-radius:5px;
+		display:inline-block;
+		padding:3px 8px;
+		text-decoration:none
+	}
+	.helbrary-tree li.parent_li>span {
+		cursor:pointer
+	}
+	.helbrary-tree>ul>li::before, .helbrary-tree>ul>li::after {
+		border:0
+	}
+	.helbrary-tree li:last-child::before {
+		height:30px
+	}
+	.helbrary-tree li.parent_li>span:hover, .helbrary-tree li.parent_li>span:hover+ul li span {
+		background:#eee;
+		border:1px solid #94a0b4;
+		color:#000
+	}
+	.helbrary-tree-list li span.active, .helbrary-tree-list li span.active:hover {
+		border: 3px solid rgb(218, 62, 62);
+		color: rgb(218, 62, 62);
+		font-weight: 900;
+	}
+
+	.helbrary-tree-list ul {
+		margin-left: 25px;
+	}
+
+	.helbrary-tree-chooser {
+		cursor: pointer;
+	}
+
+	.helbrary-tree .icon-plus::before {
+		content: '+';
+		font-weight: 900;
+	}
+
+	.helbrary-tree .icon-minus::before {
+		content: '-';
+		font-weight: 900;
+	}
+
+</style>

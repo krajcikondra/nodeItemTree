@@ -179,4 +179,13 @@ class TreeNode
 		return FALSE;
 	}
 
+	/**
+	 * Has some nodes?
+	 * @return bool
+	 */
+	public function hasNodes()
+	{
+		return count($this->nodes) > 0;
+	}
+
 }
