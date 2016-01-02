@@ -126,6 +126,14 @@ class BaseTreeTestCase extends \Tester\TestCase
 		Assert::contains(1, array_keys($items));
 		Assert::count(1, $items);
 	}
+
+	public function testAddNode()
+	{
+		$tree = $this->tree;
+		Assert::exception(function() use ($tree) {
+			$this->tree->addNode(18, 'My failure node', [], 100005); // parent node with key 100005 does not exist
+			}, 'Helbrary\NodeItemTree\ParentNodeNotFoundException');
+	}
 }
 
 $testCase = new BaseTreeTestCase();
