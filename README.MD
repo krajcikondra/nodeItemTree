@@ -1,6 +1,6 @@
 # NodeItemTree
 
-![Alt text](tree.png?raw=true "Tree")
+![Alt text](images/tree.png?raw=true "Tree")
 
 Example: Products in categories
 
