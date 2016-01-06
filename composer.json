@@ -17,7 +17,8 @@
 	  "src/TreeNode.php",
 	  "src/TreeItem.php",
 	  "src/exceptions.php",
-	  "src/TreeRenderer/TreeRenderer.php"
+	  "src/Renderer/TreeRenderer.php",
+	  "src/Renderer/exceptions.php"
 	]
   }
 }

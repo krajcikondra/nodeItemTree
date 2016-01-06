@@ -1,9 +1,9 @@
 <div class="helbrary-tree">
 	<ul class="helbrary-tree-list">
 		{foreach $tree->findRootNodes() as $node}
-			<li>
+			<li {if $node->getKey() == $activeNode} class="active" {/if}>
 				{var $containActiveNode = ($node->getKey() == $activeNode || $node->containsDescendant($activeNode))}
-				<span {if $node->getKey() == $activeNode} class="active" {/if} >
+				<span>
 					{if $node->hasNodes()}
 						{if $containActiveNode} <i class="icon-minus"></i> {else} <i class="icon-plus"></i>  {/if}
 					{/if}

@@ -1,8 +1,8 @@
 {block node}
 	{foreach $node->findNodes() as $subNode}
 		{var $containActiveNode = ($node->getKey() == $activeNode || $node->containsDescendant($activeNode))}
-		<li {if !$containActiveNode} style="display: none;" {/if}>
-			<span {if $subNode->getKey() == $activeNode} class="active" {/if}>
+		<li {if !$containActiveNode} style="display: none;" {/if} {if $subNode->getKey() == $activeNode} class="active" {/if}>
+			<span>
 				{if $subNode->hasNodes()}
 					{if $containActiveNode} <i class="icon-minus"></i> {else} <i class="icon-plus"></i>  {/if}
 				{/if}

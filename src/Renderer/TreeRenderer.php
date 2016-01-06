@@ -5,6 +5,12 @@ namespace Helbrary\NodeItemTree\Renderer;
 use Helbrary\NodeItemTree\Tree;
 use Latte\Engine;
 
+/**
+ * @todo dopsat dokumentaci do *.MD
+ * Class TreeRenderer
+ * @author Ondrej Krajcik
+ * @package Helbrary\NodeItemTree
+ */
 class TreeRenderer
 {
 
@@ -57,9 +63,13 @@ class TreeRenderer
 	/**
 	 * Set path to template for ever item on right side of item
 	 * @param string $templatePath
+	 * @throws TemplateDoesNotExistException
 	 */
 	public function setActionItemTemplate($templatePath)
 	{
+		if (!is_file($templatePath) || !file_exists($templatePath)) {
+			throw new TemplateDoesNotExistException($templatePath);
+		}
 		$this->actionTemplatePath = $templatePath;
 	}
 
@@ -76,7 +86,7 @@ class TreeRenderer
 	 * Set active nodes
 	 * @param int $key
 	 */
-	public function setActiveNodes($key)
+	public function setActiveNode($key)
 	{
 		$this->activeNode = $key;
 	}

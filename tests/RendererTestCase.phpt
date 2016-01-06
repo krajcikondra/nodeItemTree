@@ -87,6 +87,28 @@ class RendererTestCase extends \Tester\TestCase
 		$query = "//a[@class='testing-link']";
 		$entries = $xpath->query($query, $dom);
 		Assert::equal(17, $entries->length);
+		$tree = $this->tree;
+		Assert::exception(function() use ($tree) {
+			$this->tree->getRenderer()->setActionItemTemplate('nonexistingfile.txt');
+		}, 'Helbrary\NodeItemTree\Renderer\TemplateDoesNotExistException');
+	}
+
+	public function testSetActiveNode()
+	{
+		$this->tree->getRenderer()->setActiveNode(11);
+		$html = $this->tree->render();
+		$dom = new DOMDocument();
+		$dom->loadHTML($html);
+		$xpath = new DOMXPath($dom);
+
+		$query = "//ul[@class='helbrary-tree-list']//li[@class='active']/a";
+		$entries = $xpath->query($query, $dom);
+		Assert::equal(1, $entries->length);
+
+		/** @var DomNode $entry */
+		$entry = $entries[0];
+		$attribute = $entry->attributes->getNamedItem('data-key');
+		Assert::equal((string) 11, $attribute->textContent); // node key can be string or int
 	}
 
 }
