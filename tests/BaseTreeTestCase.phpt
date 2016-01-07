@@ -134,6 +134,12 @@ class BaseTreeTestCase extends \Tester\TestCase
 			$this->tree->addNode(18, 'My failure node', [], 100005); // parent node with key 100005 does not exist
 			}, 'Helbrary\NodeItemTree\ParentNodeNotFoundException');
 	}
+
+	public function testHasNodes()
+	{
+		Assert::true($this->tree->getNode(14)->hasNodes());
+		Assert::false($this->tree->getNode(17)->hasNodes());
+	}
 }
 
 $testCase = new BaseTreeTestCase();
