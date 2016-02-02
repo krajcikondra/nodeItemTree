@@ -7,19 +7,18 @@ use Helbrary\NodeItemTree\Renderer\TreeRenderer;
  * Class Tree
  * @author Ondrej Krajcik
  * @package Helbrary\NodeItemTree
+ * @method TreeNode[] findNodes
+ * @method TreeNode getNode
+ * @method TreeNode[] findRootNodes
+ * @method TreeNode[] findPathNode
  */
-class Tree
+class Tree extends AbstractTree
 {
 
 	/**
 	 * @var TreeNode[]
 	 */
-	private $nodes = [];
-
-	/**
-	 * @var TreeNode[]
-	 */
-	private $roots = [];
+	protected $roots = [];
 
 	/**
 	 * @var TreeRenderer
@@ -42,18 +41,12 @@ class Tree
 	 */
 	public function addNode($key, $value, $data = [], $parentKey = NULL)
 	{
-
-		if ($parentKey === NULL) {
-			$node = new TreeNode($key, $value, $data);
-			$this->roots[$key] = $node;
-		} else {
-			if (!array_key_exists($parentKey, $this->nodes)) {
-				throw new ParentNodeNotFoundException($parentKey);
-			}
-			$node = new TreeNode($key, $value, $data, $this->nodes[$parentKey]);
-			$this->nodes[$parentKey]->addNode($node);
+		if ($parentKey!== NULL && !array_key_exists($parentKey, $this->nodes)) {
+			throw new ParentNodeNotFoundException($parentKey);
 		}
-		$this->nodes[$key] = $node;
+
+		$node = new TreeNode($key, $value, $data, $parentKey === NULL ? NULL : $this->nodes[$parentKey]);
+		$this->attacheNode($node);
 	}
 
 	/**
@@ -73,26 +66,6 @@ class Tree
 	}
 
 	/**
-	 * Exist node in child?
-	 * @param int $key
-	 * @return bool
-	 */
-	public function existNode($key)
-	{
-		if (isset($this->nodes[$key])) return TRUE;
-		return FALSE;
-	}
-
-	/**
-	 * Return roots nodes
-	 * @return TreeNode[]
-	 */
-	public function findRootNodes()
-	{
-		return $this->roots;
-	}
-
-	/**
 	 * @deprecated - use instead findPathToNode
 	 * Return path from root to node
 	 * @param string|int $key
@@ -106,37 +79,6 @@ class Tree
 			$nodePathIds[] = $node->getKey();
 		}
 		return array_reverse($nodePathIds, FALSE);
-	}
-
-	/**
-	 * Return path from root to node
-	 * @param string|int $key
-	 * @param bool $includeTargetNode - include target node in path?
-	 * @return TreeNode[] - contains node keys in order from root to search node, in format array( $nodeKey => $node )
-	 */
-	public function findPathToNode($key, $includeTargetNode = TRUE)
-	{
-		$node = $this->nodes[$key];
-		$nodePath = [];
-
-		if ($includeTargetNode) {
-			$nodePath[$node->getKey()] = $node;
-		}
-
-		while (($node = $node->getParentNode())) {
-			$nodePath[$node->getKey()] = $node;
-		}
-		return array_reverse($nodePath, TRUE);
-	}
-
-	/**
-	 * Return node
-	 * @param int|string $key
-	 * @return TreeNode|null
-	 */
-	public function getNode($key)
-	{
-		return $this->nodes[$key];
 	}
 
 	/**

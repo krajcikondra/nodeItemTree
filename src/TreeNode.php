@@ -7,47 +7,47 @@ namespace Helbrary\NodeItemTree;
  * @author Ondrej Krajcik
  * @package Helbrary\NodeItemTree
  */
-class TreeNode
+class TreeNode implements INode
 {
 
 	/**
 	 * @var string|int
 	 */
-	private $key;
+	protected $key;
 
 	/**
 	 * @var string|int
 	 */
-	private $value;
+	protected $value;
 
 	/**
 	 * @var array|mixed
 	 */
-	private $data;
+	protected $data;
 
 	/**
 	 * @var TreeNode
 	 */
-	private $parentNode;
+	protected $parentNode;
 
 	/**
 	 * @var array
 	 */
-	private $items = [];
+	protected $items = [];
 
 	/**
 	 * @var TreeNode[]
 	 */
-	private $nodes = [];
+	protected $nodes = [];
 
 	/**
 	 * TreeNode constructor.
 	 * @param string|int $key
 	 * @param string|int|null $value
 	 * @param array|mixed|null $data
-	 * @param TreeNode|null $parentNode
+	 * @param INode|null $parentNode
 	 */
-	public function __construct($key, $value = NULL, $data = NULL, $parentNode = NULL)
+	public function __construct($key, $value = NULL, $data = NULL, INode $parentNode = NULL)
 	{
 		$this->key = $key;
 		$this->value = $value;
@@ -92,6 +92,7 @@ class TreeNode
 	}
 
 	/**
+	 * @internal
 	 * Add node to node
 	 * @param TreeNode $node
 	 */
@@ -135,9 +136,9 @@ class TreeNode
 	/**
 	 * Find items in node and recursive find items in descendant nodes
 	 * @param TreeNode $node
-	 * @return array
+	 * @return TreeNode[]
 	 */
-	private function findItemsInNodeAndDescendants(TreeNode $node)
+	protected function findItemsInNodeAndDescendants(TreeNode $node)
 	{
 		$items = [];
 		foreach ($node->findNodes() as $subNode) {
@@ -177,6 +178,30 @@ class TreeNode
 			if ($this->contains($subNode, $searchKey)) return TRUE;
 		}
 		return FALSE;
+	}
+
+	/**
+	 * Return all descendants
+	 * @return TreeNode[]
+	 */
+	public function findDescendants()
+	{
+		return $this->findAllDescendants($this);
+	}
+
+	/**
+	 * Return all descendant nodes
+	 * @param TreeNode $node
+	 * @return TreeNode[]
+	 */
+	private function findAllDescendants(TreeNode $node)
+	{
+		$descendants = [];
+		foreach ($node->findNodes() as $subNode) {
+			$descendants[$subNode->getKey()] = $subNode;
+			$descendants += $node->findAllDescendants($subNode);
+		}
+		return $descendants;
 	}
 
 	/**
