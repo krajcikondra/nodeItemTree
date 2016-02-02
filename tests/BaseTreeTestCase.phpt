@@ -53,10 +53,10 @@ class BaseTreeTestCase extends \Tester\TestCase
 		$tree->addNode(13, 'Tablet', ['highlight' => FALSE], 4);
 		$tree->addNode(14, 'Computer', [], 4);
 		$tree->addNode(15, 'Notebook', ['highlight' => FALSE], 14);
-		$tree->addNode(15, 'Ultrabook', ['highlight' => FALSE], 14);
-		$tree->addNode(16, 'PC', ['highlight' => FALSE], 14);
+		$tree->addNode(16, 'Ultrabook', ['highlight' => FALSE], 14);
+		$tree->addNode(17, 'PC', ['highlight' => FALSE], 14);
 
-		$tree->addNode(17, 'Gaming PC', ['highlight' => FALSE], 16);
+		$tree->addNode(18, 'Gaming PC', ['highlight' => FALSE], 17);
 
 		// add items to categories
 		$tree->addItem(1, 1, 'Skoda Octavia', array());
@@ -70,21 +70,21 @@ class BaseTreeTestCase extends \Tester\TestCase
 
 	public function testPathToCategory()
 	{
-		$pathToNode = $this->tree->findPathToNode(17, FALSE);
-		Assert::same([4, 14, 16], array_keys($pathToNode));
+		$pathToNode = $this->tree->findPathToNode(18, FALSE);
+		Assert::same([4, 14, 17], array_keys($pathToNode));
 		Assert::count(3, $pathToNode);
 		Assert::same('Electro', $pathToNode[4]->getValue());
 		Assert::same('Computer', $pathToNode[14]->getValue());
-		Assert::same('PC', $pathToNode[16]->getValue());
+		Assert::same('PC', $pathToNode[17]->getValue());
 
-		$pathToNode = $this->tree->findPathToNode(17);
+		$pathToNode = $this->tree->findPathToNode(18);
 		Assert::count(4, $pathToNode);
 
-		Assert::same([4, 14, 16, 17], array_keys($pathToNode));
+		Assert::same([4, 14, 17, 18], array_keys($pathToNode));
 		Assert::same('Electro', $pathToNode[4]->getValue());
 		Assert::same('Computer', $pathToNode[14]->getValue());
-		Assert::same('PC', $pathToNode[16]->getValue());;
-		Assert::same('Gaming PC', $pathToNode[17]->getValue());;
+		Assert::same('PC', $pathToNode[17]->getValue());;
+		Assert::same('Gaming PC', $pathToNode[18]->getValue());;
 	}
 
 	public function testFindRootNodes()
@@ -131,15 +131,28 @@ class BaseTreeTestCase extends \Tester\TestCase
 	{
 		$tree = $this->tree;
 		Assert::exception(function() use ($tree) {
-			$this->tree->addNode(18, 'My failure node', [], 100005); // parent node with key 100005 does not exist
-			}, 'Helbrary\NodeItemTree\ParentNodeNotFoundException');
+			$this->tree->addNode(30, 'My failure node', [], 100005); // parent node with key 100005 does not exist
+			}, \Helbrary\NodeItemTree\ParentNodeNotFoundException::class);
+
+		Assert::exception(function() use ($tree) {
+			$this->tree->addNode(3, 'Node with duplicite key', [], 1);
+		}, \Helbrary\NodeItemTree\NodeWithKeyAlreadyExistException::class);
 	}
 
 	public function testHasNodes()
 	{
 		Assert::true($this->tree->getNode(14)->hasNodes());
-		Assert::false($this->tree->getNode(17)->hasNodes());
+		Assert::false($this->tree->getNode(16)->hasNodes());
 	}
+
+	public function testRemoveNode()
+	{
+		Assert::same(18, count($this->tree->findNodes()));
+		$this->tree->removeNode(14);
+		Assert::same(13, count($this->tree->findNodes()));
+		//@todo chtelo by to dopsat podrobnejsi testy
+	}
+
 }
 
 $testCase = new BaseTreeTestCase();

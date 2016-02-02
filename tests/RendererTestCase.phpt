@@ -53,10 +53,10 @@ class RendererTestCase extends \Tester\TestCase
 		$tree->addNode(13, 'Tablet', ['highlight' => FALSE], 4);
 		$tree->addNode(14, 'Computer', [], 4);
 		$tree->addNode(15, 'Notebook', ['highlight' => FALSE], 14);
-		$tree->addNode(15, 'Ultrabook', ['highlight' => FALSE], 14);
-		$tree->addNode(16, 'PC', ['highlight' => FALSE], 14);
+		$tree->addNode(16, 'Ultrabook', ['highlight' => FALSE], 14);
+		$tree->addNode(17, 'PC', ['highlight' => FALSE], 14);
 
-		$tree->addNode(17, 'Gaming PC', ['highlight' => FALSE], 16);
+		$tree->addNode(18, 'Gaming PC', ['highlight' => FALSE], 16);
 
 		// add items to categories
 		$tree->addItem(1, 1, 'Skoda Octavia', array());
@@ -73,7 +73,7 @@ class RendererTestCase extends \Tester\TestCase
 		$html = $this->tree->render();
 		$dom = new DOMDocument();
 		$dom->loadHTML($html);
-		Assert::equal(17, $dom->getElementsByTagName('li')->length);
+		Assert::equal(18, $dom->getElementsByTagName('li')->length);
 	}
 
 	public function testActionTemplate()
@@ -86,7 +86,7 @@ class RendererTestCase extends \Tester\TestCase
 
 		$query = "//a[@class='testing-link']";
 		$entries = $xpath->query($query, $dom);
-		Assert::equal(17, $entries->length);
+		Assert::equal(18, $entries->length);
 		$tree = $this->tree;
 		Assert::exception(function() use ($tree) {
 			$this->tree->getRenderer()->setActionItemTemplate('nonexistingfile.txt');
