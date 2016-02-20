@@ -2,21 +2,25 @@
 
 namespace Helbrary\NodeItemTree;
 
-abstract class AbstractTree
+abstract class BaseTree
 {
 
 	/**
-	 * @var INode[]
+	 * @var BaseNode[]
 	 */
 	protected $nodes = [];
 
+	/**
+	 * @var BaseNode[]
+	 */
+	protected $roots = [];
 
 	/**
 	 * Attache node to tree
-	 * @param INode $node
+	 * @param BaseNode $node
 	 * @throws NodeWithKeyAlreadyExistException
 	 */
-	protected function attacheNode(INode $node)
+	protected function attacheNode(BaseNode $node)
 	{
 		if (array_key_exists($node->getKey(), $this->nodes)) {
 			throw new NodeWithKeyAlreadyExistException($node->getKey());
@@ -32,7 +36,7 @@ abstract class AbstractTree
 
 	/**
 	 * Return all nodes
-	 * @return INode[]
+	 * @return BaseNode[]
 	 */
 	public function findNodes()
 	{
@@ -42,16 +46,20 @@ abstract class AbstractTree
 	/**
 	 * Return node
 	 * @param int|string $key
-	 * @return INode|null
+	 * @return BaseNode|null
+	 * @throws NodeNotFoundException
 	 */
 	public function getNode($key)
 	{
+		if (!isset($this->nodes[$key])) {
+			throw new NodeNotFoundException($key);
+		}
 		return $this->nodes[$key];
 	}
 
 	/**
 	 * Return roots nodes
-	 * @return INode[]
+	 * @return BaseNode[]
 	 */
 	public function findRootNodes()
 	{
@@ -62,7 +70,7 @@ abstract class AbstractTree
 	 * Return path from root to node
 	 * @param string|int $key
 	 * @param bool $includeTargetNode - include target node in path?
-	 * @return INode[] - contains node keys in order from root to search node, in format array( $nodeKey => $node )
+	 * @return BaseNode[] - contains node keys in order from root to search node, in format array( $nodeKey => $node )
 	 */
 	public function findPathToNode($key, $includeTargetNode = TRUE)
 	{
@@ -86,8 +94,7 @@ abstract class AbstractTree
 	 */
 	public function existNode($key)
 	{
-		if (isset($this->nodes[$key])) return TRUE;
-		return FALSE;
+		return isset($this->nodes[$key]);
 	}
 
 	/**
@@ -105,6 +112,5 @@ abstract class AbstractTree
 		unset($this->nodes[$nodeKey]);
 		unset($this->roots[$nodeKey]);
 	}
-
 
 }

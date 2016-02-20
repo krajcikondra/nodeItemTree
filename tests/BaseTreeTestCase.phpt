@@ -148,9 +148,20 @@ class BaseTreeTestCase extends \Tester\TestCase
 	public function testRemoveNode()
 	{
 		Assert::same(18, count($this->tree->findNodes()));
+		Assert::noError(function() {
+			$this->tree->getNode(15);
+		});
 		$this->tree->removeNode(14);
+
 		Assert::same(13, count($this->tree->findNodes()));
-		//@todo chtelo by to dopsat podrobnejsi testy
+		Assert::exception(function() {
+			$this->tree->getNode(15);
+		}, \Helbrary\NodeItemTree\NodeNotFoundException::class);
+		$this->tree->removeNode(1);
+		$this->tree->removeNode(2);
+		$this->tree->removeNode(3);
+		$this->tree->removeNode(4);
+		Assert::same(0, count($this->tree->findNodes()));
 	}
 
 }

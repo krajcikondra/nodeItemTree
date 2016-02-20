@@ -153,7 +153,7 @@ class TraversalTreeTest extends \Tester\TestCase
 
 	public function testAddRecalculate()
 	{
-		$this->tree->addNode(37, 'Black', array(), 6); //@todo co kdyz pouziju metodu pro vlozeni v nodu? to pak nemuzu pouzivat v tree metodu findNodes tak ze vratim nodes, instancni promenna nodes v Tree by se tim padem mela uplne zrusit
+		$this->tree->addNode(37, 'Black', array(), 6);
 
 		Assert::same(1, $this->tree->getNode(1)->left);
 		Assert::same(2, $this->tree->getNode(5)->left);

@@ -8,17 +8,12 @@ use Helbrary\NodeItemTree\Renderer\TreeRenderer;
  * @author Ondrej Krajcik
  * @package Helbrary\NodeItemTree
  * @method TreeNode[] findNodes
- * @method TreeNode getNode
+ * @method TreeNode getNode($key)
  * @method TreeNode[] findRootNodes
  * @method TreeNode[] findPathNode
  */
-class Tree extends AbstractTree
+class Tree extends BaseTree
 {
-
-	/**
-	 * @var TreeNode[]
-	 */
-	protected $roots = [];
 
 	/**
 	 * @var TreeRenderer

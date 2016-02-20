@@ -7,47 +7,17 @@ namespace Helbrary\NodeItemTree;
  * @author Ondrej Krajcik
  * @package Helbrary\NodeItemTree
  */
-class TreeNode implements INode
+class TreeNode extends BaseNode
 {
-
-	/**
-	 * @var string|int
-	 */
-	protected $key;
-
-	/**
-	 * @var string|int
-	 */
-	protected $value;
-
-	/**
-	 * @var array|mixed
-	 */
-	protected $data;
-
-	/**
-	 * @var TreeNode
-	 */
-	protected $parentNode;
-
-	/**
-	 * @var array
-	 */
-	protected $items = [];
-
-	/**
-	 * @var TreeNode[]
-	 */
-	protected $nodes = [];
 
 	/**
 	 * TreeNode constructor.
 	 * @param string|int $key
 	 * @param string|int|null $value
 	 * @param array|mixed|null $data
-	 * @param INode|null $parentNode
+	 * @param BaseNode|null $parentNode
 	 */
-	public function __construct($key, $value = NULL, $data = NULL, INode $parentNode = NULL)
+	public function __construct($key, $value = NULL, $data = NULL, BaseNode $parentNode = NULL)
 	{
 		$this->key = $key;
 		$this->value = $value;
@@ -202,15 +172,6 @@ class TreeNode implements INode
 			$descendants += $node->findAllDescendants($subNode);
 		}
 		return $descendants;
-	}
-
-	/**
-	 * Has some nodes?
-	 * @return bool
-	 */
-	public function hasNodes()
-	{
-		return count($this->nodes) > 0;
 	}
 
 }

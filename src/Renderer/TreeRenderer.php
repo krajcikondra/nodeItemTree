@@ -6,7 +6,6 @@ use Helbrary\NodeItemTree\Tree;
 use Latte\Engine;
 
 /**
- * @todo dopsat dokumentaci do *.MD
  * Class TreeRenderer
  * @author Ondrej Krajcik
  * @package Helbrary\NodeItemTree
