@@ -14,12 +14,6 @@ matrix:
     - php: hhvm
 
   exclude:
-    - php: 5.3.3
-      env: TESTER_PHP_BIN="hhvm"
-
-    - php: 5.4
-      env: TESTER_PHP_BIN="hhvm"
-
     - php: 5.5
       env: TESTER_PHP_BIN="hhvm"
 
@@ -28,9 +22,6 @@ matrix:
 
     - php: hhvm
       env: TESTER_PHP_BIN="php-cgi"
-
-services:
-  - redis-server
 
 before_install:
   - composer self-update
@@ -43,5 +34,4 @@ script:
   - ./vendor/bin/tester -p $TESTER_PHP_BIN -s ./tests/
 
 after_failure:
-  # Vytiskne obsah souborů *.actual
   - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
