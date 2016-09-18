@@ -38,9 +38,6 @@ before_install:
 install:
   - composer install --no-interaction --prefer-source
 
-before_script:
-  - mysql -u root -e 'CREATE DATABASE testbase;'
-  - mysql -u root testbase < tests/testbase.sql
 
 script:
   - ./vendor/bin/tester -p $TESTER_PHP_BIN -s ./tests/
