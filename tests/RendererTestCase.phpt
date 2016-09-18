@@ -106,7 +106,7 @@ class RendererTestCase extends \Tester\TestCase
 		Assert::equal(1, $entries->length);
 
 		/** @var DomNode $entry */
-		$entry = $entries[0];
+		$entry = $entries->item(0);
 		$attribute = $entry->attributes->getNamedItem('data-key');
 		Assert::equal((string) 11, $attribute->textContent); // node key can be string or int
 	}
